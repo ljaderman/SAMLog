@@ -2,6 +2,7 @@
 
 A lightweight objective-c, thread-safe, (distributed) event log that selectively syncs to the firebase realtime database.
 
+
 ## Synopsis
 
 * "State-And-More Log"... a lightweight, threadsafe, (distributed) event log that selectively syncs to the firebase realtime database.
@@ -13,6 +14,7 @@ A lightweight objective-c, thread-safe, (distributed) event log that selectively
 * It can be used to synchronize data between app instances (i.e. play-back distributed log events).
 
 * It can optionally encrypt all data (via RNCryptor, AES-256 CBC) prior to sending it to the cloud.
+
 
 ## Contents
 
@@ -56,6 +58,7 @@ The "where" is determined by SAMLog_StreamType, as follows:
 * SAMStreamTypeSystemAuth - data is written to: /sys/SAMLog/auth/{stream}/...
 * SAMStreamTypeSystemNonAuth - data is written to: /sys/SAMLog/nonauth/{stream}/...
 
+
 ## Installation
 
 ### Mobile App - XCode project
@@ -88,7 +91,11 @@ After enbabling the realtime database, edit the realtime database rules allowing
 }
 ```
 
+
 ## Considerations
+
+
+
 
 ## Design Goals
 
