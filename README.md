@@ -18,8 +18,8 @@ A lightweight objective-c, thread-safe, (distributed) event log that selectively
 
 * [Basic Usage](#basic-usage)
 * [Installation](#installation)
-* [Options](#options)
-* [Design Considerations](#design-considerations)
+* [Considerations](#considerations)
+* [Design Goals](#design-goals)
 * [License](#license)
 
 ## Basic Usage
@@ -56,12 +56,41 @@ The "where" is determined by SAMLog_StreamType, as follows:
 * SAMStreamTypeSystemAuth - data is written to: /sys/SAMLog/auth/{stream}/...
 * SAMStreamTypeSystemNonAuth - data is written to: /sys/SAMLog/nonauth/{stream}/...
 
-
 ## Installation
 
-## Options
+### Mobile App - XCode project
+Simply copy the .m,.h files into your project.
 
-## Design Considerations
+### Firebase server side
+After enbabling the realtime database, edit the realtime database rules allowing SAMLog to write to its expected endpoints, as follows:
+```javascript
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "auth != null && ((auth.uid == $uid),
+        ".write": "auth != null && ((auth.uid == $uid),
+      },
+    },
+    "sys": {
+      "SAMLog": {
+        "auth": {
+          ".read": "false",
+          ".write": "auth != null",
+        },
+        "noauth": {
+          ".read": "false",
+          ".write": "true",          
+        },
+      },
+    },
+  },
+}
+```
+
+## Considerations
+
+## Design Goals
 
 SAMLog has several has several design goals, in order of importance:
 
