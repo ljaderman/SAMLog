@@ -1,6 +1,9 @@
 # SAMLog - "State-And-More Log"
 
 A lightweight objective-c, thread-safe, (distributed) event log that selectively syncs to the firebase realtime database.
+
+Solves the problem of quickly communicating app events to firebase cloud-functions and storage with minimal setup.
+
 Used in production for analytics, a leaderboard, cloud-syncing of calendar app data, and more.
 
 ## Synopsis
