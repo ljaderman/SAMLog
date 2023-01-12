@@ -72,7 +72,13 @@ For websocket streams, bi-directional messaging is supported and SAMLog will pas
 ## Installation
 
 ### Mobile App - XCode project
-Simply copy the .m,.h files into your project.
+SAMLog depends upon Firebase and SocketRocket. For SocketRocket, make sure it include the following podfile:
+pod 'SocketRocket'
+
+For Firebase, please see the latest installation instructions here: https://firebase.google.com/docs/ios/setup
+
+Then... simply copy the SAMLog .m,.h files into your project.
+
 
 ### Firebase server side
 After enbabling the realtime database, edit the realtime database rules allowing SAMLog to write to its expected endpoints, as follows:
