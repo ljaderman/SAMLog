@@ -72,10 +72,19 @@ For websocket streams, bi-directional messaging is supported and SAMLog will pas
 ## Installation
 
 ### Mobile App - XCode project
-SAMLog depends upon Firebase and SocketRocket. For SocketRocket, make sure it include the following podfile:
-pod 'SocketRocket'
+SAMLog depends upon Firebase and SocketRocket. 
 
 For Firebase, please see the latest installation instructions here: https://firebase.google.com/docs/ios/setup
+
+For SocketRocket, you can find various install options here: https://github.com/facebookincubator/SocketRocket
+- **[CocoaPods](https://cocoapods.org)**
+
+ Add the following line to your Podfile:
+ ```ruby
+ pod 'SocketRocket'
+ ```
+ Run `pod install`, and you are all set.
+
 
 Then... simply copy the SAMLog .m,.h files into your project.
 
