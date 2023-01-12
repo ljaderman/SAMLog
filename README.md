@@ -7,7 +7,7 @@ Used in production for analytics, a leaderboard, cloud-syncing of calendar app d
 
 ## Synopsis
 
-* A lightweight, threadsafe, (distributed) event log that selectively syncs to the firebase realtime database.
+* A lightweight, threadsafe, (distributed) event log that selectively syncs to the firebase realtime database or a websocket server.
 
 * It has a notion of "streams" so that different types of data can be logged and other processes can react to logging events (i.e. watch a stream).
 
@@ -16,6 +16,8 @@ Used in production for analytics, a leaderboard, cloud-syncing of calendar app d
 * It can be used to synchronize data between app instances (i.e. play-back distributed log events).
 
 * It can optionally encrypt all data (via RNCryptor, AES-256 CBC) prior to sending it to the cloud.
+
+* It can stream to one or more websocket endpoints and attempts to automatically reconnect with randomized exponential backoff.
 
 
 ## Contents
@@ -33,6 +35,9 @@ Used in production for analytics, a leaderboard, cloud-syncing of calendar app d
   [[SamLog sharedInstance] addStream:@"dataLog" persistance:SAMLocalPersistanceFile accumulateDelay:2.0 streamType:SAMStreamTypeUser];
 
   [[SamLog sharedInstance] addStream:@"analyticsLog" persistance:SAMLocalPersistanceMemoryOnly accumulateDelay:10.0 streamType:SAMStreamTypeSystemNonAuth];
+  
+  // setup a stream to a local websocket server to log "important" events
+  [[SAMLog sharedInstance] addStream:@"localDebug" persistance:SAMLocalPersistanceMemoryOnly accumulateDelay:0.01 streamType:SAMServerStreamTypeWebsocket];
 
   [[SAMLog sharedInstance] startSyncing];
   
@@ -54,11 +59,14 @@ Used in production for analytics, a leaderboard, cloud-syncing of calendar app d
    [[SAMLog sharedInstance] logEvent:@"dataLog" event:@"EVENT_COINS_TRADED" detailDict:d];
 ```
 
-You can control where and how data is streamed to firebase.
+You can control where and how data is streamed to.
 The "where" is determined by SAMLog_StreamType, as follows:
 * SAMStreamTypeUser  - data is written to: /users/{userid}/SAMLog/{stream}/...
 * SAMStreamTypeSystemAuth - data is written to: /sys/SAMLog/auth/{stream}/...
 * SAMStreamTypeSystemNonAuth - data is written to: /sys/SAMLog/nonauth/{stream}/...
+
+* SAMServerStreamTypeWebsocket - data is sent to a websocket
+For websocket streams, bi-directional messaging is supported and SAMLog will pass stream messages on to any registered listeners.
 
 
 ## Installation
@@ -93,6 +101,46 @@ After enbabling the realtime database, edit the realtime database rules allowing
 }
 ```
 
+### Sample websocket server
+```python
+#!/usr/bin/env python
+
+import asyncio
+import json
+import websockets
+import base64
+import sys
+
+USERS = set()
+
+async def register(websocket):
+    USERS.add(websocket)
+    sys.stdout.write('\a')
+    print('> added connection --: ', len(USERS))
+
+async def unregister(websocket):
+    USERS.remove(websocket)
+    sys.stdout.write('\a')
+    print('> removed connection-: ', len(USERS))
+
+async def counter(websocket, path):
+    await register(websocket)
+    try:
+        async for message in websocket:
+            data_decoded = base64.b64decode(str(message)).decode('utf-8')
+            parsed = json.loads(data_decoded)
+            print(json.dumps(parsed, indent=4, sort_keys=True))
+    finally:
+        await unregister(websocket)
+
+ip='127.0.0.1'
+port=8763
+print("[[ listening for connections on: " + ip + "::" + str(port) + " ]]")
+
+asyncio.get_event_loop().run_until_complete(
+    websockets.serve(counter, ip, port))
+asyncio.get_event_loop().run_forever()
+```
 
 ## Considerations
 
