@@ -66,7 +66,7 @@ The "where" is determined by SAMLog_StreamType, as follows:
 * SAMStreamTypeSystemNonAuth - data is written to: /sys/SAMLog/nonauth/{stream}/...
 
 * SAMServerStreamTypeWebsocket - data is sent to a websocket
-For websocket streams, bi-directional messaging is supported and SAMLog will pass stream messages on to any registered listeners.
+For websocket streams, bi-directional messaging is supported and SAMLog will pass stream messages on to registered listeners.
 
 
 ## Installation
