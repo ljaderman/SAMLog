@@ -172,11 +172,11 @@ The most critical concern is that it be easy to add reasonably-performant report
 
 ### Flexability
 
-SAMLog endeavors to handle the most common app event communication scenarios, such as communicating events without authentication a user and also those after a user has authenticated. 
+SAMLog endeavors to handle the most common app event communication scenarios, such as communicating events that occur prior to authentication as well as those that happen after a user has authenticated. 
 
 ### Performance
 
-Performance is a goal, but not the most important goal. The code must be easy to use and adapatible to common use-cases. Within that, it is as fast and memory-efficient as possible.
+Performance is a goal, but not the most important goal. The code must be easy to use and adapatible to common use-cases. Given that, it is as fast and memory-efficient as possible.
 
 ## License
 
