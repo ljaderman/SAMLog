@@ -90,7 +90,7 @@ Then... simply copy the SAMLog .m,.h files into your project.
 
 
 ### Firebase server side
-After enbabling the realtime database, edit the realtime database rules allowing SAMLog to write to its expected endpoints, as follows:
+After enabling the realtime database, edit the realtime database rules allowing SAMLog to write to its expected endpoints, as follows:
 ```javascript
 {
   "rules": {
