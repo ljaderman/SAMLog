@@ -86,7 +86,7 @@ For SocketRocket, you can find various install options here: https://github.com/
  Run `pod install`, and you are all set.
  
  * NOTE: You will see a thread priority inversion warning in iOS16+. I suggest patching the issue by editing the SocketRocket source file: Internal/RunLoop/SRRunLoopThread.m, in method + (instancetype)sharedThread:
- * Add (after thread.name = @"com.facebook.SocketRocket.NetworkThread"):
+ * Add the line (after thread.name = @"com.facebook.SocketRocket.NetworkThread", and before [thread start];):
 ```objc
   thread.qualityOfService = NSQualityOfServiceUserInitiated;
 ```
