@@ -130,6 +130,7 @@ import json
 import websockets
 import base64
 import sys
+import socket
 
 USERS = set()
 
@@ -153,7 +154,10 @@ async def counter(websocket, path):
     finally:
         await unregister(websocket)
 
-ip='127.0.0.1'
+# get our ip address
+hostname = socket.gethostname()
+ip = socket.gethostbyname(hostname)
+
 port=8763
 print("[[ listening for connections on: " + ip + "::" + str(port) + " ]]")
 
