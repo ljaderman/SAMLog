@@ -84,7 +84,12 @@ For SocketRocket, you can find various install options here: https://github.com/
  pod 'SocketRocket'
  ```
  Run `pod install`, and you are all set.
-
+ 
+ * NOTE: You will see a thread priority inversion warning in iOS16+. I suggest patching the issue by editing the SocketRocket source file: Internal/RunLoop/SRRunLoopThread.m, in method + (instancetype)sharedThread:
+ * Add (after thread.name = @"com.facebook.SocketRocket.NetworkThread"):
+```objc
+  thread.qualityOfService = NSQualityOfServiceUserInitiated;
+```
 
 Then... simply copy the SAMLog .m,.h files into your project.
 
